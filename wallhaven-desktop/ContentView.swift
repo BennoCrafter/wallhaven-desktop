@@ -30,12 +30,6 @@ func loadDataFromURL(url: URL, completion: @escaping ([Wallpaper]?, Error?) -> V
     task.resume()
 }
 
-struct ImageItem: Identifiable {
-    let id = UUID()
-    let url: String
-    let starRating: Int // Star rating for each image
-}
-
 struct ContentView: View {
     @State private var searchText = ""
     @State private var selectedMenuItem = "Home"
@@ -63,61 +57,65 @@ struct ContentView: View {
             .listStyle(.sidebar)
             .frame(minWidth: 200)
         } detail: {
-            // Main content
-            VStack(spacing: 0) {
-                // Search bar
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.secondary)
-                    TextField("Search wallpapers...", text: self.$searchText)
-                        .textFieldStyle(.plain)
-                        .focused(self.$searchBarIsFocused)
+            NavigationStack {
+                // Main content
+                VStack(spacing: 0) {
+                    // Search bar
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.secondary)
+                        TextField("Search wallpapers...", text: self.$searchText)
+                            .textFieldStyle(.plain)
+                            .focused(self.$searchBarIsFocused)
 
-                    if !self.searchText.isEmpty {
-                        Button(action: {
-                            self.searchText = ""
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
+                        if !self.searchText.isEmpty {
+                            Button(action: {
+                                self.searchText = ""
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
-                }
-                .padding(6)
-                .background(Color(.textBackgroundColor))
-                .cornerRadius(6)
-                .padding(.horizontal)
-                .padding(.vertical, 8)
+                    .padding(6)
+                    .background(Color(.textBackgroundColor))
+                    .cornerRadius(6)
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
 
-                // Image gallery with hover tooltips
-                ScrollView {
-                    LazyVGrid(columns: [
-                        GridItem(.adaptive(minimum: 180, maximum: 220), spacing: 16)
-                    ], spacing: 16) {
-                        ForEach(self.wallpapers) { wa in
-                            ImageThumbnailWithTooltip(
-                                wallpaper: wa,
-                                isHovered: self.hoveredImageID == wa.id,
-                                onHover: { isHovering in
-                                    self.hoveredImageID = isHovering ? wa.id : nil
+                    // Image gallery with hover tooltips
+                    ScrollView {
+                        LazyVGrid(columns: [
+                            GridItem(.adaptive(minimum: 180, maximum: 220), spacing: 16)
+                        ], spacing: 16) {
+                            ForEach(self.wallpapers) { wallpaper in
+                                NavigationLink(destination: WallpaperDetailView(wallpaper: wallpaper)) {
+                                    ImageThumbnailWithTooltip(
+                                        wallpaper: wallpaper,
+                                        isHovered: self.hoveredImageID == wallpaper.id,
+                                        onHover: { isHovering in
+                                            self.hoveredImageID = isHovering ? wallpaper.id : nil
+                                        }
+                                    )
                                 }
-                            )
+                                .buttonStyle(PlainButtonStyle()) // Remove default button styling
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
-            }
-            .frame(minWidth: 600, minHeight: 400)
-            .navigationTitle(self.selectedMenuItem)
-            .onAppear {
-                if let url = URL(string: "https://wallhaven.cc/api/v1/search") {
-                    loadDataFromURL(url: url) { wallpapers, error in
-                        if let error = error {
-                            print("Failed to load data:", error)
-                            self.wallpapers = []
-                        } else if let wallpapers = wallpapers {
-                            print("Loaded wallpapers:", wallpapers)
-                            self.wallpapers = wallpapers
+                .navigationTitle(self.selectedMenuItem)
+                .onAppear {
+                    if let url = URL(string: "https://wallhaven.cc/api/v1/search") {
+                        loadDataFromURL(url: url) { wallpapers, error in
+                            if let error = error {
+                                print("Failed to load data:", error)
+                                self.wallpapers = []
+                            } else if let wallpapers = wallpapers {
+                                print("Loaded wallpapers:", wallpapers)
+                                self.wallpapers = wallpapers
+                            }
                         }
                     }
                 }
@@ -138,7 +136,85 @@ struct ContentView: View {
     }
 }
 
-// Custom component for the image with hover tooltip
+// Detail view that will be displayed when a thumbnail is clicked
+struct WallpaperDetailView: View {
+    let wallpaper: Wallpaper
+
+    var body: some View {
+        VStack {
+            AsyncImage(url: self.wallpaper.path) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(8)
+                        .shadow(radius: 3)
+                        .padding()
+                case .failure:
+                    VStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 60))
+                        Text("Failed to load image")
+                            .padding(.top)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                @unknown default:
+                    Text("Unknown state")
+                }
+            }
+            .frame(minWidth: 600, minHeight: 400)
+
+            // Wallpaper information
+            HStack(spacing: 20) {
+                HStack(spacing: 4) {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                    Text("\(self.wallpaper.favorites)")
+                        .font(.title3)
+                }
+
+                HStack(spacing: 4) {
+                    Image(systemName: "eye.fill")
+                        .foregroundColor(.blue)
+                    Text("\(self.wallpaper.views)")
+                        .font(.title3)
+                }
+
+                Spacer()
+
+                Button(action: {
+                    // Add to favorites action
+                }) {
+                    Label("Add to Favorites", systemImage: "heart")
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                }
+
+                Button(action: {
+                    // Download action
+                }) {
+                    Label("Download", systemImage: "arrow.down.circle")
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(Color.green)
+                        .cornerRadius(8)
+                }
+            }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 24)
+        }
+        .navigationTitle("Wallpaper Details")
+    }
+}
+
 struct ImageThumbnailWithTooltip: View {
     let wallpaper: Wallpaper
     let isHovered: Bool
@@ -181,18 +257,24 @@ struct ImageThumbnailWithTooltip: View {
                 self.onHover(isHovered)
             }
 
-            // Star rating tooltip that appears at the bottom of the image when hovered
             if self.isHovered {
                 HStack {
-                    Text("Here could be your ad")
+                    HStack(spacing: 2) {
+                        Text("\(self.wallpaper.favorites)")
+                        Image(systemName: "star.fill")
+                    }
+                    HStack(spacing: 2) {
+                        Text("\(self.wallpaper.views)")
+                        Image(systemName: "eye.fill")
+                    }
+                    Spacer()
                 }
                 .padding(6)
                 .background(Color(.windowBackgroundColor).opacity(0.85))
                 .cornerRadius(6)
                 .shadow(radius: 1)
-                .padding(.bottom, 8) // Add some space from the bottom edge
+                .padding(.bottom, 8)
                 .transition(.opacity)
-                .zIndex(1) // Ensure tooltip appears above the image
             }
         }
         .animation(.easeInOut(duration: 0.2), value: self.isHovered)

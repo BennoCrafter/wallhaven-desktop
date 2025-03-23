@@ -6,6 +6,7 @@ class Wallpaper: Codable, Identifiable {
     var url: URL
     var shortUrl: URL
     var views: Int
+    var favorites: Int
     var source: String
     var purity: WallpaperPurity
     var category: String
@@ -29,6 +30,7 @@ class Wallpaper: Codable, Identifiable {
         case url
         case shortUrl = "short_url"
         case views
+        case favorites
         case source
         case purity
         case category
@@ -41,11 +43,12 @@ class Wallpaper: Codable, Identifiable {
         case thumbs
     }
 
-    required init(id: String, url: URL, shortUrl: URL, views: Int, source: String, purity: WallpaperPurity, category: String, createdAt: Date, fileType: String, fileSize: Int, colors: [String], path: URL, uploader: User?, thumbs: WallpaperThumbs) {
+    required init(id: String, url: URL, shortUrl: URL, views: Int, favorites: Int, source: String, purity: WallpaperPurity, category: String, createdAt: Date, fileType: String, fileSize: Int, colors: [String], path: URL, uploader: User?, thumbs: WallpaperThumbs) {
         self.id = id
         self.url = url
         self.shortUrl = shortUrl
         self.views = views
+        self.favorites = favorites
         self.source = source
         self.purity = purity
         self.category = category
@@ -66,6 +69,7 @@ class Wallpaper: Codable, Identifiable {
         self.url = try container.decode(URL.self, forKey: .url)
         self.shortUrl = try container.decode(URL.self, forKey: .shortUrl)
         self.views = try container.decode(Int.self, forKey: .views)
+        self.favorites = try container.decode(Int.self, forKey: .favorites)
         self.source = try container.decode(String.self, forKey: .source)
         self.purity = try container.decode(WallpaperPurity.self, forKey: .purity)
         self.category = try container.decode(String.self, forKey: .category)
