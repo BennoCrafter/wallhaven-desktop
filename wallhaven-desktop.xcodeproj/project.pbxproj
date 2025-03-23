@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		D37CBC6D2D906C3600ACAFA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D37CBC532D906C3500ACAFA1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D37CBC5A2D906C3500ACAFA1;
+			remoteInfo = "wallhaven-desktop";
+		};
+		D37CBC772D906C3600ACAFA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D37CBC532D906C3500ACAFA1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D37CBC5A2D906C3500ACAFA1;
+			remoteInfo = "wallhaven-desktop";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D37CBC5B2D906C3500ACAFA1 /* wallhaven-desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "wallhaven-desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D37CBC6C2D906C3600ACAFA1 /* wallhaven-desktopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "wallhaven-desktopTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D37CBC762D906C3600ACAFA1 /* wallhaven-desktopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "wallhaven-desktopUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D37CBC5D2D906C3500ACAFA1 /* wallhaven-desktop */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "wallhaven-desktop";
+			sourceTree = "<group>";
+		};
+		D37CBC6F2D906C3600ACAFA1 /* wallhaven-desktopTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "wallhaven-desktopTests";
+			sourceTree = "<group>";
+		};
+		D37CBC792D906C3600ACAFA1 /* wallhaven-desktopUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "wallhaven-desktopUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D37CBC582D906C3500ACAFA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37CBC692D906C3600ACAFA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37CBC732D906C3600ACAFA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D37CBC522D906C3500ACAFA1 = {
+			isa = PBXGroup;
+			children = (
+				D37CBC5D2D906C3500ACAFA1 /* wallhaven-desktop */,
+				D37CBC6F2D906C3600ACAFA1 /* wallhaven-desktopTests */,
+				D37CBC792D906C3600ACAFA1 /* wallhaven-desktopUITests */,
+				D37CBC5C2D906C3500ACAFA1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D37CBC5C2D906C3500ACAFA1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D37CBC5B2D906C3500ACAFA1 /* wallhaven-desktop.app */,
+				D37CBC6C2D906C3600ACAFA1 /* wallhaven-desktopTests.xctest */,
+				D37CBC762D906C3600ACAFA1 /* wallhaven-desktopUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D37CBC5A2D906C3500ACAFA1 /* wallhaven-desktop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D37CBC802D906C3600ACAFA1 /* Build configuration list for PBXNativeTarget "wallhaven-desktop" */;
+			buildPhases = (
+				D37CBC572D906C3500ACAFA1 /* Sources */,
+				D37CBC582D906C3500ACAFA1 /* Frameworks */,
+				D37CBC592D906C3500ACAFA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D37CBC5D2D906C3500ACAFA1 /* wallhaven-desktop */,
+			);
+			name = "wallhaven-desktop";
+			packageProductDependencies = (
+			);
+			productName = "wallhaven-desktop";
+			productReference = D37CBC5B2D906C3500ACAFA1 /* wallhaven-desktop.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D37CBC6B2D906C3600ACAFA1 /* wallhaven-desktopTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D37CBC832D906C3600ACAFA1 /* Build configuration list for PBXNativeTarget "wallhaven-desktopTests" */;
+			buildPhases = (
+				D37CBC682D906C3600ACAFA1 /* Sources */,
+				D37CBC692D906C3600ACAFA1 /* Frameworks */,
+				D37CBC6A2D906C3600ACAFA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D37CBC6E2D906C3600ACAFA1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D37CBC6F2D906C3600ACAFA1 /* wallhaven-desktopTests */,
+			);
+			name = "wallhaven-desktopTests";
+			packageProductDependencies = (
+			);
+			productName = "wallhaven-desktopTests";
+			productReference = D37CBC6C2D906C3600ACAFA1 /* wallhaven-desktopTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D37CBC752D906C3600ACAFA1 /* wallhaven-desktopUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D37CBC862D906C3600ACAFA1 /* Build configuration list for PBXNativeTarget "wallhaven-desktopUITests" */;
+			buildPhases = (
+				D37CBC722D906C3600ACAFA1 /* Sources */,
+				D37CBC732D906C3600ACAFA1 /* Frameworks */,
+				D37CBC742D906C3600ACAFA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D37CBC782D906C3600ACAFA1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D37CBC792D906C3600ACAFA1 /* wallhaven-desktopUITests */,
+			);
+			name = "wallhaven-desktopUITests";
+			packageProductDependencies = (
+			);
+			productName = "wallhaven-desktopUITests";
+			productReference = D37CBC762D906C3600ACAFA1 /* wallhaven-desktopUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D37CBC532D906C3500ACAFA1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					D37CBC5A2D906C3500ACAFA1 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					D37CBC6B2D906C3600ACAFA1 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = D37CBC5A2D906C3500ACAFA1;
+					};
+					D37CBC752D906C3600ACAFA1 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = D37CBC5A2D906C3500ACAFA1;
+					};
+				};
+			};
+			buildConfigurationList = D37CBC562D906C3500ACAFA1 /* Build configuration list for PBXProject "wallhaven-desktop" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D37CBC522D906C3500ACAFA1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D37CBC5C2D906C3500ACAFA1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D37CBC5A2D906C3500ACAFA1 /* wallhaven-desktop */,
+				D37CBC6B2D906C3600ACAFA1 /* wallhaven-desktopTests */,
+				D37CBC752D906C3600ACAFA1 /* wallhaven-desktopUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D37CBC592D906C3500ACAFA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37CBC6A2D906C3600ACAFA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37CBC742D906C3600ACAFA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D37CBC572D906C3500ACAFA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37CBC682D906C3600ACAFA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37CBC722D906C3600ACAFA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D37CBC6E2D906C3600ACAFA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D37CBC5A2D906C3500ACAFA1 /* wallhaven-desktop */;
+			targetProxy = D37CBC6D2D906C3600ACAFA1 /* PBXContainerItemProxy */;
+		};
+		D37CBC782D906C3600ACAFA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D37CBC5A2D906C3500ACAFA1 /* wallhaven-desktop */;
+			targetProxy = D37CBC772D906C3600ACAFA1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D37CBC7E2D906C3600ACAFA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D37CBC7F2D906C3600ACAFA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		D37CBC812D906C3600ACAFA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "wallhaven-desktop/wallhaven_desktop.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"wallhaven-desktop/Preview Content\"";
+				DEVELOPMENT_TEAM = FL9Y5AAB4D;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "bennowo.wallhaven-desktop";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D37CBC822D906C3600ACAFA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "wallhaven-desktop/wallhaven_desktop.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"wallhaven-desktop/Preview Content\"";
+				DEVELOPMENT_TEAM = FL9Y5AAB4D;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "bennowo.wallhaven-desktop";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D37CBC842D906C3600ACAFA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL9Y5AAB4D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "bennowo.wallhaven-desktopTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wallhaven-desktop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/wallhaven-desktop";
+			};
+			name = Debug;
+		};
+		D37CBC852D906C3600ACAFA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL9Y5AAB4D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "bennowo.wallhaven-desktopTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wallhaven-desktop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/wallhaven-desktop";
+			};
+			name = Release;
+		};
+		D37CBC872D906C3600ACAFA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL9Y5AAB4D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "bennowo.wallhaven-desktopUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "wallhaven-desktop";
+			};
+			name = Debug;
+		};
+		D37CBC882D906C3600ACAFA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL9Y5AAB4D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "bennowo.wallhaven-desktopUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "wallhaven-desktop";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D37CBC562D906C3500ACAFA1 /* Build configuration list for PBXProject "wallhaven-desktop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D37CBC7E2D906C3600ACAFA1 /* Debug */,
+				D37CBC7F2D906C3600ACAFA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D37CBC802D906C3600ACAFA1 /* Build configuration list for PBXNativeTarget "wallhaven-desktop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D37CBC812D906C3600ACAFA1 /* Debug */,
+				D37CBC822D906C3600ACAFA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D37CBC832D906C3600ACAFA1 /* Build configuration list for PBXNativeTarget "wallhaven-desktopTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D37CBC842D906C3600ACAFA1 /* Debug */,
+				D37CBC852D906C3600ACAFA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D37CBC862D906C3600ACAFA1 /* Build configuration list for PBXNativeTarget "wallhaven-desktopUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D37CBC872D906C3600ACAFA1 /* Debug */,
+				D37CBC882D906C3600ACAFA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D37CBC532D906C3500ACAFA1 /* Project object */;
+}
