@@ -99,7 +99,7 @@ struct ContentView: View {
                                         }
                                     )
                                 }
-                                .buttonStyle(PlainButtonStyle()) // Remove default button styling
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding()
@@ -189,24 +189,24 @@ struct WallpaperDetailView: View {
                 Button(action: {
                     // Add to favorites action
                 }) {
-                    Label("Add to Favorites", systemImage: "heart")
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
+                    Label("Add to Favorites", systemImage: "heart.fill")
                         .padding(.vertical, 8)
-                        .background(Color.blue)
-                        .cornerRadius(8)
+                        .padding(.horizontal, 16)
                 }
+                .background(.yellow.opacity(0.8))
+                .cornerRadius(8)
+                .buttonStyle(PlainButtonStyle())
 
                 Button(action: {
                     // Download action
                 }) {
-                    Label("Download", systemImage: "arrow.down.circle")
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
+                    Label("Download", systemImage: "arrow.down.circle.fill")
                         .padding(.vertical, 8)
-                        .background(Color.green)
-                        .cornerRadius(8)
+                        .padding(.horizontal, 16)
                 }
+                .background(Color(red: 0.0, green: 0.48, blue: 1.0))
+                .cornerRadius(8)
+                .buttonStyle(PlainButtonStyle())
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
