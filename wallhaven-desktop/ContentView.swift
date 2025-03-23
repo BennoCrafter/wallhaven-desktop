@@ -253,28 +253,29 @@ struct ImageThumbnailWithTooltip: View {
             .padding(4)
             .background(Color(.windowBackgroundColor))
             .cornerRadius(8)
+            .overlay(alignment: .bottom) {
+                if self.isHovered {
+                    HStack {
+                        HStack(spacing: 2) {
+                            Text("\(self.wallpaper.favorites)")
+                            Image(systemName: "star.fill")
+                        }
+                        HStack(spacing: 2) {
+                            Text("\(self.wallpaper.views)")
+                            Image(systemName: "eye.fill")
+                        }
+                        Spacer()
+                    }
+                    .padding(6)
+                    .background(Color(.windowBackgroundColor).opacity(0.85))
+                    .cornerRadius(6)
+                    .shadow(radius: 1)
+                    .padding(.bottom, 8)
+                    .transition(.opacity)
+                }
+            }
             .onHover { isHovered in
                 self.onHover(isHovered)
-            }
-
-            if self.isHovered {
-                HStack {
-                    HStack(spacing: 2) {
-                        Text("\(self.wallpaper.favorites)")
-                        Image(systemName: "star.fill")
-                    }
-                    HStack(spacing: 2) {
-                        Text("\(self.wallpaper.views)")
-                        Image(systemName: "eye.fill")
-                    }
-                    Spacer()
-                }
-                .padding(6)
-                .background(Color(.windowBackgroundColor).opacity(0.85))
-                .cornerRadius(6)
-                .shadow(radius: 1)
-                .padding(.bottom, 8)
-                .transition(.opacity)
             }
         }
         .animation(.easeInOut(duration: 0.2), value: self.isHovered)
