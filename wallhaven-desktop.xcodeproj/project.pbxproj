@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D37CBD0C2D90969D00ACAFA1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D37CBD0B2D90969D00ACAFA1 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D37CBC6D2D906C3600ACAFA1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D37CBD0C2D90969D00ACAFA1 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = "wallhaven-desktop";
 			packageProductDependencies = (
+				D37CBD0B2D90969D00ACAFA1 /* Kingfisher */,
 			);
 			productName = "wallhaven-desktop";
 			productReference = D37CBC5B2D906C3500ACAFA1 /* wallhaven-desktop.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = D37CBC522D906C3500ACAFA1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D37CBD0A2D90969D00ACAFA1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D37CBC5C2D906C3500ACAFA1 /* Products */;
 			projectDirPath = "";
@@ -549,6 +558,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D37CBD0A2D90969D00ACAFA1 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D37CBD0B2D90969D00ACAFA1 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D37CBD0A2D90969D00ACAFA1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D37CBC532D906C3500ACAFA1 /* Project object */;
 }

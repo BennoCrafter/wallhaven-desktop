@@ -1,3 +1,4 @@
+import Kingfisher
 import SwiftUI
 
 struct WallpaperResponse: Codable {
@@ -161,7 +162,6 @@ struct ContentView: View {
         case "Home": return "house"
         case "Favorites": return "heart"
         case "Recent": return "clock"
-        case "Albums": return "folder"
         case "Settings": return "gear"
         default: return "circle"
         }
@@ -174,31 +174,17 @@ struct WallpaperDetailView: View {
 
     var body: some View {
         VStack {
-            AsyncImage(url: self.wallpaper.path) { phase in
-                switch phase {
-                case .empty:
+            KFImage.url(self.wallpaper.path)
+                .resizable()
+                .placeholder {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(8)
-                        .shadow(radius: 3)
-                        .padding()
-                case .failure:
-                    VStack {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .font(.system(size: 60))
-                        Text("Failed to load image")
-                            .padding(.top)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                @unknown default:
-                    Text("Unknown state")
                 }
-            }
-            .frame(minWidth: 600, minHeight: 400)
+                .scaledToFit()
+                .frame(minWidth: 600, minHeight: 400)
+                .cornerRadius(8)
+                .shadow(radius: 3)
+                .padding()
 
             // Wallpaper information
             HStack(spacing: 20) {
@@ -255,60 +241,44 @@ struct ImageThumbnailWithTooltip: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             // Image
-            AsyncImage(url: self.wallpaper.thumbs.small) { phase in
-                switch phase {
-                case .empty:
+            KFImage.url(self.wallpaper.thumbs.small)
+                .resizable()
+                .placeholder {
                     ProgressView()
                         .frame(width: 200, height: 150)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 200, height: 150)
-                        .cornerRadius(6)
-                        .shadow(radius: 2)
-                        .clipped()
-                case .failure:
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.system(size: 40))
-                        .frame(width: 200, height: 150)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(6)
-                @unknown default:
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.system(size: 40))
-                        .frame(width: 200, height: 150)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(6)
                 }
-            }
-            .padding(4)
-            .background(Color(.windowBackgroundColor))
-            .cornerRadius(8)
-            .overlay(alignment: .bottom) {
-                if self.isHovered {
-                    HStack {
-                        HStack(spacing: 2) {
-                            Text("\(self.wallpaper.favorites)")
-                            Image(systemName: "star.fill")
+                .scaledToFill()
+                .frame(width: 200, height: 150)
+                .cornerRadius(6)
+                .shadow(radius: 2)
+                .clipped()
+                .padding(4)
+                .background(Color(.windowBackgroundColor))
+                .cornerRadius(8)
+                .overlay(alignment: .bottom) {
+                    if self.isHovered {
+                        HStack {
+                            HStack(spacing: 2) {
+                                Text("\(self.wallpaper.favorites)")
+                                Image(systemName: "star.fill")
+                            }
+                            HStack(spacing: 2) {
+                                Text("\(self.wallpaper.views)")
+                                Image(systemName: "eye.fill")
+                            }
+                            Spacer()
                         }
-                        HStack(spacing: 2) {
-                            Text("\(self.wallpaper.views)")
-                            Image(systemName: "eye.fill")
-                        }
-                        Spacer()
+                        .padding(6)
+                        .background(Color(.windowBackgroundColor).opacity(0.85))
+                        .cornerRadius(6)
+                        .shadow(radius: 1)
+                        .padding(.bottom, 8)
+                        .transition(.opacity)
                     }
-                    .padding(6)
-                    .background(Color(.windowBackgroundColor).opacity(0.85))
-                    .cornerRadius(6)
-                    .shadow(radius: 1)
-                    .padding(.bottom, 8)
-                    .transition(.opacity)
                 }
-            }
-            .onHover { isHovered in
-                self.onHover(isHovered)
-            }
+                .onHover { isHovered in
+                    self.onHover(isHovered)
+                }
         }
         .animation(.easeInOut(duration: 0.2), value: isHovered)
     }
