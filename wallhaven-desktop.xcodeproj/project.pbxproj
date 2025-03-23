@@ -29,33 +29,9 @@
 		D37CBC762D906C3600ACAFA1 /* wallhaven-desktopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "wallhaven-desktopUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D37CBD052D90870C00ACAFA1 /* Exceptions for "wallhaven-desktop" folder in "wallhaven-desktop" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				loadData.swift,
-			);
-			target = D37CBC5A2D906C3500ACAFA1 /* wallhaven-desktop */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		D37CBD062D90870C00ACAFA1 /* Exceptions for "wallhaven-desktop" folder in "Copy Bundle Resources" phase from "wallhaven-desktop" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = D37CBC592D906C3500ACAFA1 /* Resources */;
-			membershipExceptions = (
-				loadData.swift,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D37CBC5D2D906C3500ACAFA1 /* wallhaven-desktop */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				D37CBD052D90870C00ACAFA1 /* Exceptions for "wallhaven-desktop" folder in "wallhaven-desktop" target */,
-				D37CBD062D90870C00ACAFA1 /* Exceptions for "wallhaven-desktop" folder in "Copy Bundle Resources" phase from "wallhaven-desktop" target */,
-			);
 			path = "wallhaven-desktop";
 			sourceTree = "<group>";
 		};

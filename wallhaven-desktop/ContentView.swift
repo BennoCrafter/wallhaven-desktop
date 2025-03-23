@@ -34,10 +34,13 @@ struct ContentView: View {
     @State private var searchText = ""
     @State private var selectedMenuItem = "Home"
     @State private var hoveredImageID: String? = nil // Track which image is being hovered
-
     @FocusState private var searchBarIsFocused: Bool
+    @State private var wallpapers: [Wallpaper] = []
 
-    @State var wallpapers: [Wallpaper] = []
+    // New State properties for pagination and loading
+    @State private var currentPage = 1
+    @State private var isLoading = false
+    @State private var canLoadMore = true
 
     // Sidebar menu items
     let menuItems = ["Home", "Favorites", "Recent", "Albums", "Settings"]
@@ -63,7 +66,7 @@ struct ContentView: View {
                     // Search bar
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
                         TextField("Search wallpapers...", text: self.$searchText)
                             .textFieldStyle(.plain)
                             .focused(self.$searchBarIsFocused)
@@ -73,7 +76,7 @@ struct ContentView: View {
                                 self.searchText = ""
                             }) {
                                 Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.secondary)
+                                    .foregroundStyle(.secondary)
                             }
                             .buttonStyle(.plain)
                         }
@@ -100,26 +103,55 @@ struct ContentView: View {
                                     )
                                 }
                                 .buttonStyle(PlainButtonStyle())
+                                .onAppear {
+                                    loadMoreContentIfNeeded(currentItem: wallpaper)
+                                }
                             }
                         }
                         .padding()
+
+                        // Show loading indicator when fetching new wallpapers
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .padding()
+                        }
                     }
                 }
                 .navigationTitle(self.selectedMenuItem)
                 .onAppear {
-                    if let url = URL(string: "https://wallhaven.cc/api/v1/search") {
-                        loadDataFromURL(url: url) { wallpapers, error in
-                            if let error = error {
-                                print("Failed to load data:", error)
-                                self.wallpapers = []
-                            } else if let wallpapers = wallpapers {
-                                print("Loaded wallpapers:", wallpapers)
-                                self.wallpapers = wallpapers
-                            }
-                        }
-                    }
+                    loadWallpapers(page: currentPage)
                 }
             }
+        }
+    }
+
+    // Function to load wallpapers
+    func loadWallpapers(page: Int) {
+        guard !isLoading && canLoadMore else { return }
+
+        isLoading = true
+        if let url = URL(string: "https://wallhaven.cc/api/v1/search?page=\(page)") {
+            loadDataFromURL(url: url) { wallpapers, error in
+                if let error = error {
+                    print("Failed to load data:", error)
+                    self.isLoading = false
+                } else if let wallpapers = wallpapers {
+                    self.wallpapers.append(contentsOf: wallpapers)
+                    self.currentPage += 1
+                    self.isLoading = false
+                    self.canLoadMore = wallpapers.count > 0
+                }
+            }
+        }
+    }
+
+    // Function to load more content if needed
+    func loadMoreContentIfNeeded(currentItem item: Wallpaper) {
+        // Check if the last item is close to the bottom, and trigger load more
+        let thresholdIndex = wallpapers.index(wallpapers.endIndex, offsetBy: -5)
+        if wallpapers.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
+            loadWallpapers(page: currentPage)
         }
     }
 
@@ -172,14 +204,14 @@ struct WallpaperDetailView: View {
             HStack(spacing: 20) {
                 HStack(spacing: 4) {
                     Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
+                        .foregroundStyle(.yellow)
                     Text("\(self.wallpaper.favorites)")
                         .font(.title3)
                 }
 
                 HStack(spacing: 4) {
                     Image(systemName: "eye.fill")
-                        .foregroundColor(.blue)
+                        .foregroundStyle(.blue)
                     Text("\(self.wallpaper.views)")
                         .font(.title3)
                 }
@@ -278,7 +310,7 @@ struct ImageThumbnailWithTooltip: View {
                 self.onHover(isHovered)
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: self.isHovered)
+        .animation(.easeInOut(duration: 0.2), value: isHovered)
     }
 }
 
@@ -289,6 +321,6 @@ struct ImageThumbnailWithTooltip: View {
 
 extension String {
     func clean() -> String {
-        return self.replacingOccurrences(of: "\\/", with: "/")
+        return replacingOccurrences(of: "\\/", with: "/")
     }
 }
