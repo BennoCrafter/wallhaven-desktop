@@ -6,9 +6,7 @@ struct WallpaperResponse: Codable {
 }
 
 func loadDataFromURL(url: URL, completion: @escaping ([Wallpaper]?, Error?) -> Void) {
-    // Create a URLSession data task to load data
     let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        // Handle errors
         if let error = error {
             completion(nil, error)
             return
@@ -27,28 +25,24 @@ func loadDataFromURL(url: URL, completion: @escaping ([Wallpaper]?, Error?) -> V
             completion(nil, decodingError)
         }
     }
-
     task.resume()
 }
 
 struct ContentView: View {
     @State private var searchText = ""
     @State private var selectedMenuItem = "Home"
-    @State private var hoveredImageID: String? = nil // Track which image is being hovered
+    @State private var hoveredImageID: String? = nil
     @FocusState private var searchBarIsFocused: Bool
     @State private var wallpapers: [Wallpaper] = []
 
-    // New State properties for pagination and loading
     @State private var currentPage = 1
     @State private var isLoading = false
     @State private var canLoadMore = true
 
-    // Sidebar menu items
-    let menuItems = ["Home", "Favorites", "Recent", "Albums", "Settings"]
+    let menuItems = ["Home", "Favorites", "Recent", "Settings"]
 
     var body: some View {
         NavigationSplitView {
-            // Sidebar
             List(self.menuItems, id: \.self, selection: self.$selectedMenuItem) { item in
                 HStack {
                     Image(systemName: self.iconForMenuItem(item))
@@ -62,19 +56,23 @@ struct ContentView: View {
             .frame(minWidth: 200)
         } detail: {
             NavigationStack {
-                // Main content
                 VStack(spacing: 0) {
-                    // Search bar
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(.secondary)
                         TextField("Search wallpapers...", text: self.$searchText)
                             .textFieldStyle(.plain)
                             .focused(self.$searchBarIsFocused)
+                            .onSubmit {
+                                triggerSearch()
+                                self.searchBarIsFocused = false
+                            }
 
                         if !self.searchText.isEmpty {
                             Button(action: {
                                 self.searchText = ""
+                                self.searchBarIsFocused = true
+                                triggerSearch()
                             }) {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundStyle(.secondary)
@@ -88,34 +86,53 @@ struct ContentView: View {
                     .padding(.horizontal)
                     .padding(.vertical, 8)
 
-                    // Image gallery with hover tooltips
-                    ScrollView {
-                        LazyVGrid(columns: [
-                            GridItem(.adaptive(minimum: 180, maximum: 220), spacing: 16)
-                        ], spacing: 16) {
-                            ForEach(self.wallpapers) { wallpaper in
-                                NavigationLink(destination: WallpaperDetailView(wallpaper: wallpaper)) {
-                                    ImageThumbnailWithTooltip(
-                                        wallpaper: wallpaper,
-                                        isHovered: self.hoveredImageID == wallpaper.id,
-                                        onHover: { isHovering in
-                                            self.hoveredImageID = isHovering ? wallpaper.id : nil
-                                        }
-                                    )
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                .onAppear {
-                                    loadMoreContentIfNeeded(currentItem: wallpaper)
-                                }
-                            }
+                    if !isLoading && wallpapers.isEmpty {
+                        VStack(spacing: 16) {
+                            Image(systemName: "magnifyingglass.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .foregroundColor(.gray)
+
+                            Text("No queries found")
+                                .font(.title2)
+                                .foregroundColor(.gray)
+                                .padding()
+
+                            Text("Try a different search term")
+                                .font(.body)
+                                .foregroundColor(.secondary)
                         }
                         .padding()
+                        Spacer()
+                    } else {
+                        ScrollView {
+                            LazyVGrid(columns: [
+                                GridItem(.adaptive(minimum: 180, maximum: 220), spacing: 16)
+                            ], spacing: 16) {
+                                ForEach(self.wallpapers) { wallpaper in
+                                    NavigationLink(destination: WallpaperDetailView(wallpaper: wallpaper)) {
+                                        ImageThumbnailWithTooltip(
+                                            wallpaper: wallpaper,
+                                            isHovered: self.hoveredImageID == wallpaper.id,
+                                            onHover: { isHovering in
+                                                self.hoveredImageID = isHovering ? wallpaper.id : nil
+                                            }
+                                        )
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                    .onAppear {
+                                        loadMoreContentIfNeeded(currentItem: wallpaper)
+                                    }
+                                }
+                            }
+                            .padding()
 
-                        // Show loading indicator when fetching new wallpapers
-                        if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .padding()
+                            if isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .padding()
+                            }
                         }
                     }
                 }
@@ -127,12 +144,20 @@ struct ContentView: View {
         }
     }
 
-    // Function to load wallpapers
+    private func triggerSearch() {
+        wallpapers = []
+        currentPage = 1
+        canLoadMore = true
+        loadWallpapers(page: currentPage)
+    }
+
     func loadWallpapers(page: Int) {
         guard !isLoading && canLoadMore else { return }
 
         isLoading = true
-        if let url = URL(string: "https://wallhaven.cc/api/v1/search?page=\(page)") {
+        let urlString = "https://wallhaven.cc/api/v1/search?q=\(searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&page=\(page)"
+
+        if let url = URL(string: urlString) {
             loadDataFromURL(url: url) { wallpapers, error in
                 if let error = error {
                     print("Failed to load data:", error)
@@ -147,16 +172,13 @@ struct ContentView: View {
         }
     }
 
-    // Function to load more content if needed
     func loadMoreContentIfNeeded(currentItem item: Wallpaper) {
-        // Check if the last item is close to the bottom, and trigger load more
         let thresholdIndex = wallpapers.index(wallpapers.endIndex, offsetBy: -5)
-        if wallpapers.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
-            loadWallpapers(page: currentPage)
+        if let currentItemIndex = wallpapers.firstIndex(where: { $0.id == item.id }), currentItemIndex >= thresholdIndex {
+            loadWallpapers(page: currentPage) // Load next page when we reach the threshold
         }
     }
 
-    // Function to return appropriate system icons for menu items
     func iconForMenuItem(_ item: String) -> String {
         switch item {
         case "Home": return "house"
@@ -168,7 +190,6 @@ struct ContentView: View {
     }
 }
 
-// Detail view that will be displayed when a thumbnail is clicked
 struct WallpaperDetailView: View {
     let wallpaper: Wallpaper
 
@@ -186,7 +207,6 @@ struct WallpaperDetailView: View {
                 .shadow(radius: 3)
                 .padding()
 
-            // Wallpaper information
             HStack(spacing: 20) {
                 HStack(spacing: 4) {
                     Image(systemName: "star.fill")
@@ -240,7 +260,6 @@ struct ImageThumbnailWithTooltip: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // Image
             KFImage.url(self.wallpaper.thumbs.small)
                 .resizable()
                 .placeholder {
@@ -284,7 +303,6 @@ struct ImageThumbnailWithTooltip: View {
     }
 }
 
-// macOS specific Preview
 #Preview {
     ContentView()
 }
