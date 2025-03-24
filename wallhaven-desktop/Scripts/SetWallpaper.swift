@@ -2,7 +2,7 @@ import Cocoa
 
 func setDesktopWallpaper(imagePath: String) {
     guard let imageURL = URL(string: "file://\(imagePath)") else {
-        print("Invalid file path")
+        WallhavenLogger.shared.error("Invalid wallpaper file paht", showToast: true)
         return
     }
     setDesktopWallpaper(imageURL: imageURL)
@@ -21,9 +21,9 @@ func setDesktopWallpaper(imageURL: URL) {
     for screen in screens {
         do {
             try workspace.setDesktopImageURL(imageURL, for: screen, options: options)
-            print("Wallpaper set successfully on screen: \(screen)")
+            WallhavenLogger.shared.success("Wallpaper set successfully on screen: \(screen)", showToast: true)
         } catch {
-            print("Failed to set wallpaper: \(error)")
+            WallhavenLogger.shared.error("Failed to set wallpaper: \(error)", showToast: true)
         }
     }
 }

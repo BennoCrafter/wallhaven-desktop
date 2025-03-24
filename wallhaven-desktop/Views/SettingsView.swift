@@ -2,14 +2,14 @@ import AppKit
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var selectedFolder: URL?
+    @EnvironmentObject private var dataManager: DataManager
     
     var body: some View {
         VStack(spacing: 20) {
             Text("Selected Folder:")
                 .font(.headline)
             
-            Text(selectedFolder?.path ?? "No folder selected")
+            Text(dataManager.appConfig.wallpaperSavePath?.path ?? "No folder selected")
                 .foregroundColor(.gray)
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -30,7 +30,7 @@ struct SettingsView: View {
         panel.allowsMultipleSelection = false
         
         if panel.runModal() == .OK {
-            selectedFolder = panel.urls.first
+            dataManager.appConfig.wallpaperSavePath = panel.urls.first
         }
     }
 }

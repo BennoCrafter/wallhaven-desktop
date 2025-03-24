@@ -2,6 +2,7 @@ import Kingfisher
 import SwiftUI
 
 struct WallpaperDetailView: View {
+    @EnvironmentObject private var dataManager: DataManager
     let wallpaper: Wallpaper
 
     var body: some View {
@@ -47,7 +48,20 @@ struct WallpaperDetailView: View {
                 .buttonStyle(PlainButtonStyle())
 
                 Button(action: {
-                    // Download action
+                    guard let destinationUrl = dataManager.appConfig.wallpaperSavePath?.appendingPathComponent(self.wallpaper.path.lastPathComponent) else {
+                        WallhavenLogger.shared.error("No wallpaper save path was configured", showToast: true)
+                        return
+                    }
+                    WallhavenLogger.shared.info("Starting download..", showToast: true)
+                    downloadImage(from: self.wallpaper.path, to: destinationUrl) { result in
+                        switch result {
+                        case .success(let success):
+                            WallhavenLogger.shared.success("Wallpaper saved to \(success)", showToast: true)
+                        case .failure(let failure):
+                            WallhavenLogger.shared.error("Failed to download wallpaper", showToast: true)
+                            WallhavenLogger.shared.error("\(failure)", showToast: true)
+                        }
+                    }
                 }) {
                     Label("Download", systemImage: "arrow.down.circle.fill")
                         .padding(.vertical, 8)

@@ -198,7 +198,7 @@ struct ContentView: View {
         if let url = URL(string: urlString) {
             loadDataFromURL(url: url) { wallpapers, error in
                 if let error = error {
-                    print("Failed to load data:", error)
+                    WallhavenLogger.shared.error("Failed to load wallpapers data: \(error)", showToast: true)
                     self.isLoading = false
                 } else if let wallpapers = wallpapers {
                     self.wallpapers.append(contentsOf: wallpapers)
