@@ -70,6 +70,8 @@ struct WallpaperDetailView: View {
                 .background(Color(red: 0.0, green: 0.48, blue: 1.0))
                 .cornerRadius(8)
                 .buttonStyle(PlainButtonStyle())
+                .keyboardShortcut(.return, modifiers: .command)
+                .help("Fastly download it by pressing ⌘+Enter")
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
