@@ -80,10 +80,10 @@
 		D37CBC522D906C3500ACAFA1 = {
 			isa = PBXGroup;
 			children = (
-				D37CBC5D2D906C3500ACAFA1 /* wallhaven-desktop */,
 				D37CBC6F2D906C3600ACAFA1 /* wallhaven-desktopTests */,
 				D37CBC792D906C3600ACAFA1 /* wallhaven-desktopUITests */,
 				D37CBC5C2D906C3500ACAFA1 /* Products */,
+				D37CBC5D2D906C3500ACAFA1 /* wallhaven-desktop */,
 			);
 			sourceTree = "<group>";
 		};
