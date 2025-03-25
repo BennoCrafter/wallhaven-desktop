@@ -26,7 +26,9 @@ struct SettingsView: View {
                     .buttonStyle(.borderedProminent)
                 }
                 
-                Section(header: Text("Preferences").font(.headline)) {}
+                Section(header: Text("Wallhaven API Key").font(.headline)) {
+                    APIKeySettingsView()
+                }
                 
                 Section(header: Text("Storage Management").font(.headline)) {
                     HStack {
@@ -72,4 +74,81 @@ struct SettingsView: View {
     SettingsView()
         .environmentObject(DataManager.shared)
         .frame(width: 500, height: 600)
+}
+
+struct APIKeySettingsView: View {
+    @State private var apiKey = ""
+    @State private var isAPIKeyVisible = false
+    
+    private let keychainManager = KeychainManager.shared
+    private let apiKeyIdentifier = "com.wallhaven-desktop.wallhavenAPIKey"
+    @FocusState private var apiKeyFieldFocused: Bool
+    
+    var body: some View {
+        HStack {
+            Group {
+                if isAPIKeyVisible {
+                    TextField("Enter API Key", text: $apiKey)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onSubmit {
+                            saveAPIKey()
+                        }
+                        .focused($apiKeyFieldFocused)
+                } else {
+                    SecureField("Enter API Key", text: $apiKey)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onSubmit {
+                            saveAPIKey()
+                        }
+                        .focused($apiKeyFieldFocused)
+                }
+            }
+            
+            Button(action: {
+                saveAPIKey()
+            }) {
+                Image(systemName: "checkmark")
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(PlainButtonStyle())
+                    
+            Button(action: { isAPIKeyVisible.toggle() }) {
+                Image(systemName: isAPIKeyVisible ? "eye.slash.fill" : "eye.fill")
+                    .foregroundColor(.secondary)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .onAppear(perform: checkAPIKey)
+    }
+    
+    private func saveAPIKey() {
+        guard !apiKey.isEmpty else {
+            WallhavenLogger.shared.error("API Key cannot be empty!", showToast: true)
+            return
+        }
+        
+        let success = keychainManager.saveToKeychain(key: apiKeyIdentifier, value: apiKey)
+        
+        if success {
+            apiKeyFieldFocused = false
+            isAPIKeyVisible = false
+            WallhavenLogger.shared.success("API Key saved successfully", showToast: true)
+        } else {
+            WallhavenLogger.shared.error("Failed to save API Key", showToast: true)
+        }
+    }
+    
+    private func checkAPIKey() {
+        apiKey = getAPIKey() ?? ""
+    }
+    
+    // Method to retrieve the API key when needed
+    func getAPIKey() -> String? {
+        return keychainManager.retrieveFromKeychain(key: apiKeyIdentifier)
+    }
+}
+
+#Preview {
+    APIKeySettingsView()
+        .frame(width: 500, height: 200)
 }

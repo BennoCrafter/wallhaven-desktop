@@ -48,7 +48,7 @@ struct WallpaperDetailView: View {
                 Spacer()
 
                 Button(action: {
-                    // Add to favorites action
+                    // https://wallhaven.cc/favorites/add?wallHashid=7pd3l9&collectionId=1878962&_token=TOKEN // How to get the token?
                 }) {
                     Label("Add to Favorites", systemImage: "heart.fill")
                         .padding(.vertical, 8)
