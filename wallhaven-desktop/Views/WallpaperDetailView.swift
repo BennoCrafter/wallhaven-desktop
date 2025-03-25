@@ -48,19 +48,7 @@ struct WallpaperDetailView: View {
                 .buttonStyle(PlainButtonStyle())
 
                 Button(action: {
-                    guard let destinationUrl = dataManager.appConfig.wallpaperSavePath?.appendingPathComponent(self.wallpaper.path.lastPathComponent) else {
-                        WallhavenLogger.shared.error("No wallpaper save path was configured", showToast: true)
-                        return
-                    }
-                    WallhavenLogger.shared.info("Starting download..", showToast: true)
-                    downloadImage(from: self.wallpaper.path, to: destinationUrl) { result in
-                        switch result {
-                        case .success(let success):
-                            WallhavenLogger.shared.success("Wallpaper saved to \(success)", showToast: true)
-                        case .failure(let failure):
-                            WallhavenLogger.shared.error("Failed to download wallpaper", showToast: true)
-                            WallhavenLogger.shared.error("\(failure)", showToast: true)
-                        }
+                    downloadWallpaper { _ in
                     }
                 }) {
                     Label("Download", systemImage: "arrow.down.circle.fill")
@@ -72,10 +60,52 @@ struct WallpaperDetailView: View {
                 .buttonStyle(PlainButtonStyle())
                 .keyboardShortcut(.return, modifiers: .command)
                 .help("Fastly download it by pressing ⌘+Enter")
+
+                Button(action: self.applyWallpaper) {
+                    Label("Apply", systemImage: "paintbrush.fill")
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                }
+                .background(Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                .buttonStyle(PlainButtonStyle())
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
         }
         .navigationTitle("Wallpaper Details")
+    }
+
+    private func applyWallpaper() {
+        downloadWallpaper { downloadedUrl in
+            if let fileUrl = downloadedUrl {
+                setDesktopWallpaper(imageURL: fileUrl)
+            }
+        }
+    }
+
+    private func downloadWallpaper(completion: @escaping (URL?) -> Void) {
+        guard let destinationUrl = dataManager.appConfig.wallpaperSavePath?.appendingPathComponent(wallpaper.path.lastPathComponent) else {
+            WallhavenLogger.shared.error("No wallpaper save path was configured", showToast: true)
+            completion(nil)
+            return
+        }
+
+        WallhavenLogger.shared.info("Starting download..", showToast: true)
+
+        downloadImage(from: wallpaper.path, to: destinationUrl) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fileUrl):
+                    WallhavenLogger.shared.success("Wallpaper saved to \(fileUrl)", showToast: true)
+                    completion(fileUrl)
+                case .failure(let error):
+                    WallhavenLogger.shared.error("Failed to download wallpaper", showToast: true)
+                    WallhavenLogger.shared.error("\(error)", showToast: true)
+                    completion(nil)
+                }
+            }
+        }
     }
 }

@@ -13,9 +13,9 @@ func setDesktopWallpaper(imageURL: URL) {
     let screens = NSScreen.screens
 
     let options: [NSWorkspace.DesktopImageOptionKey: Any] = [
-        .imageScaling: NSImageScaling.scaleProportionallyUpOrDown.rawValue, // Scales image while maintaining aspect ratio
-        .allowClipping: false, // Prevents cropping; entire image is shown even if it doesn't fill the screen
-        .fillColor: NSColor.clear, // Transparent background if image doesn't cover the full screen
+        .imageScaling: NSImageScaling.scaleProportionallyUpOrDown.rawValue,
+        .allowClipping: true,
+        .fillColor: NSColor.clear,
     ]
 
     for screen in screens {

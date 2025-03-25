@@ -1,3 +1,4 @@
+import Combine
 import SwiftData
 import SwiftUI
 
@@ -9,10 +10,19 @@ class DataManager: ObservableObject {
         fatalError("ModelContainer must be set using configure(context:)")
     }()
 
-    var appConfig: AppConfig = .init()
+    @Published var appConfig: AppConfig = .init()
     private var appConfigModel: AppConfigModel!
 
-    private init() {}
+    var currentStorageUsed: Int = 0
+    private var cancellable: AnyCancellable?
+
+    private init() {
+        // https://rhonabwy.com/2021/02/13/nested-observable-objects-in-swiftui/
+        self.cancellable = objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.objectWillChange.send()
+            }
+    }
 
     func configure(with modelContainer: ModelContainer) {
         self.modelContainer = modelContainer
@@ -59,66 +69,32 @@ class DataManager: ObservableObject {
 
     func setWallpaperSavePath(_ url: URL) {
         do {
-            // Ensure we can access the security-scoped resource
             guard url.startAccessingSecurityScopedResource() else {
                 WallhavenLogger.shared.error("Failed to start accessing security-scoped resource", showToast: true)
                 return
             }
 
-            // Create bookmark data
             let bookmarkData = try url.bookmarkData(
                 options: .withSecurityScope,
                 includingResourceValuesForKeys: nil,
                 relativeTo: nil
             )
 
-            // Update the model
             appConfigModel.wallpaperSavePathData = bookmarkData
-            appConfig.wallpaperSavePath = url
+            DispatchQueue.main.async { [weak self] in
+                self?.appConfig.wallpaperSavePath = url
 
-            // Save the context
+                self?.objectWillChange.send()
+            }
             try modelContainer.mainContext.save()
 
-            // Stop accessing the security-scoped resource when done
             url.stopAccessingSecurityScopedResource()
         } catch {
             WallhavenLogger.shared.error("Failed to set wallpaper save path: \(error.localizedDescription)", showToast: true)
         }
     }
-
-    // Utility method to safely access the bookmarked URL
-    func withBookmarkedURL<T>(perform action: (URL) throws -> T) rethrows -> T? {
-        guard let bookmarkData = appConfigModel.wallpaperSavePathData else {
-            WallhavenLogger.shared.error("No bookmark data available", showToast: true)
-            return nil
-        }
-
-        do {
-            var bookmarkDataIsStale = false
-            let url = try URL(
-                resolvingBookmarkData: bookmarkData,
-                options: .withSecurityScope,
-                relativeTo: nil,
-                bookmarkDataIsStale: &bookmarkDataIsStale
-            )
-
-            // Start accessing the security-scoped resource
-            guard url.startAccessingSecurityScopedResource() else {
-                WallhavenLogger.shared.error("Failed to access security-scoped resource", showToast: true)
-                return nil
-            }
-
-            // Perform the action
-            defer { url.stopAccessingSecurityScopedResource() }
-            return try action(url)
-        } catch {
-            WallhavenLogger.shared.error("Error accessing bookmarked URL: \(error.localizedDescription)", showToast: true)
-            return nil
-        }
-    }
 }
 
-// Utility download function
 func downloadImage(from sourceURL: URL, to destinationURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
     let task = URLSession.shared.dataTask(with: sourceURL) { data, response, error in
         if let error = error {
@@ -132,13 +108,11 @@ func downloadImage(from sourceURL: URL, to destinationURL: URL, completion: @esc
         }
 
         do {
-            // Ensure the destination directory exists
             try FileManager.default.createDirectory(
                 at: destinationURL.deletingLastPathComponent(),
                 withIntermediateDirectories: true
             )
 
-            // Write the data
             try data.write(to: destinationURL)
             completion(.success(destinationURL))
         } catch {
