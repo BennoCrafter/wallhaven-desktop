@@ -4,9 +4,13 @@ import Security
 class KeychainManager {
     static let shared = KeychainManager()
     
+    enum Keys: String {
+        case apiKeyIdentifier = "com.wallhaven-desktop.wallhavenAPIKey"
+    }
+
     private init() {}
     
-    func saveToKeychain(key: String, value: String) -> Bool {
+    func saveToKeychain(key: Keys, value: String) -> Bool {
         let data = value.data(using: .utf8)!
         
         _ = deleteFromKeychain(key: key)
@@ -23,7 +27,7 @@ class KeychainManager {
         return status == errSecSuccess
     }
     
-    func retrieveFromKeychain(key: String) -> String? {
+    func retrieveFromKeychain(key: Keys) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key,
@@ -43,7 +47,7 @@ class KeychainManager {
         return value
     }
     
-    func deleteFromKeychain(key: String) -> Bool {
+    func deleteFromKeychain(key: Keys) -> Bool {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key

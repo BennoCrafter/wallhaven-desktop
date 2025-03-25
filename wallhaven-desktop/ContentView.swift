@@ -30,8 +30,8 @@ func loadDataFromURL(url: URL, completion: @escaping ([Wallpaper]?, Error?) -> V
 
 enum MenuItem: String, CaseIterable, Identifiable {
     case home = "Home"
-    case favorites = "Favorites"
-    case recent = "Recent"
+    case favorites = "Collections"
+    case recent = "Downloads"
     case settings = "Settings"
 
     var id: String { rawValue }
@@ -40,7 +40,7 @@ enum MenuItem: String, CaseIterable, Identifiable {
         switch self {
         case .home: return "house"
         case .favorites: return "heart"
-        case .recent: return "clock"
+        case .recent: return "arrow.down.circle.fill"
         case .settings: return "gear"
         }
     }
@@ -57,6 +57,8 @@ struct ContentView: View {
     @State private var currentPage = 1
     @State private var isLoading = false
     @State private var canLoadMore = true
+
+    private var wallhavenAPIKey: String? { KeychainManager.shared.retrieveFromKeychain(key: .apiKeyIdentifier) }
 
     var body: some View {
         NavigationSplitView {
@@ -192,6 +194,18 @@ struct ContentView: View {
                 }
                 .padding(.horizontal)
             }
+
+            HStack {
+                Picker("Purity", selection: $searchSettings.purity) {
+                    ForEach(SearchSettings.Purity.allCases) { c in
+                        Text(c.name).tag(c)
+                    }
+                }
+                .onChange(of: searchSettings.purity) {
+                    triggerSearch()
+                }
+            }
+            .padding(.horizontal)
         }
     }
 
@@ -238,7 +252,7 @@ struct ContentView: View {
 
         isLoading = true
 
-        if let url = URL(string: searchSettings.buildURL(query: searchText, page: currentPage)) {
+        if let url = URL(string: searchSettings.buildURL(query: searchText, page: currentPage, apiKey: wallhavenAPIKey)) {
             loadDataFromURL(url: url) { wallpapers, error in
                 if let error = error {
                     WallhavenLogger.shared.error("Failed to load wallpapers data: \(error)", showToast: true)
@@ -257,16 +271,6 @@ struct ContentView: View {
         let thresholdIndex = wallpapers.index(wallpapers.endIndex, offsetBy: -5)
         if let currentItemIndex = wallpapers.firstIndex(where: { $0.id == item.id }), currentItemIndex >= thresholdIndex {
             loadWallpapers(page: currentPage) // Load next page when we reach the threshold
-        }
-    }
-
-    func iconForMenuItem(_ item: String) -> String {
-        switch item {
-        case "Home": return "house"
-        case "Favorites": return "heart"
-        case "Recent": return "clock"
-        case "Settings": return "gear"
-        default: return "circle"
         }
     }
 }

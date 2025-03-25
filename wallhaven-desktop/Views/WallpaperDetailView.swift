@@ -19,71 +19,101 @@ struct WallpaperDetailView: View {
                 .shadow(radius: 3)
                 .padding()
 
-            HStack(spacing: 20) {
-                HStack(spacing: 4) {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.yellow)
-                    Text("\(self.wallpaper.favorites)")
-                        .font(.title3)
-                }
-
-                HStack(spacing: 4) {
-                    Image(systemName: "eye.fill")
-                        .foregroundStyle(.blue)
-                    Text("\(self.wallpaper.views)")
-                        .font(.title3)
-                }
-
-                HStack(spacing: 4) {
-                    Image(systemName: "calendar")
-                        .foregroundStyle(.blue)
-                    Text(self.wallpaper.createdAt, format: .dateTime
-                        .day(.twoDigits)
-                        .month(.wide)
-                        .year()
-                        .hour(.twoDigits(amPM: .wide))
-                        .minute())
-                }
-
-                Spacer()
-
-                Button(action: {
-                    // https://wallhaven.cc/favorites/add?wallHashid=7pd3l9&collectionId=1878962&_token=TOKEN // How to get the token?
-                }) {
-                    Label("Add to Favorites", systemImage: "heart.fill")
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
-                }
-                .background(.yellow.opacity(0.8))
-                .cornerRadius(8)
-                .buttonStyle(PlainButtonStyle())
-
-                Button(action: {
-                    downloadWallpaper { _ in
+            // Wallpaper Info Section
+            VStack(alignment: .leading, spacing: 16) {
+                // Existing Details: Favorites, Views, Created Date
+                HStack(spacing: 20) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "star.fill")
+                            .foregroundStyle(.yellow)
+                        Text("\(self.wallpaper.favorites)")
+                            .font(.title3)
                     }
-                }) {
-                    Label("Download", systemImage: "arrow.down.circle.fill")
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
-                }
-                .background(Color(red: 0.0, green: 0.48, blue: 1.0))
-                .cornerRadius(8)
-                .buttonStyle(PlainButtonStyle())
-                .keyboardShortcut(.return, modifiers: .command)
-                .help("Fastly download it by pressing ⌘+Enter")
 
-                Button(action: self.applyWallpaper) {
-                    Label("Apply", systemImage: "paintbrush.fill")
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
+                    HStack(spacing: 4) {
+                        Image(systemName: "eye.fill")
+                            .foregroundStyle(.blue)
+                        Text("\(self.wallpaper.views)")
+                            .font(.title3)
+                    }
+
+                    HStack(spacing: 4) {
+                        Image(systemName: "calendar")
+                            .foregroundStyle(.blue)
+                        Text(self.wallpaper.createdAt, format: .dateTime
+                            .day(.twoDigits)
+                            .month(.wide)
+                            .year()
+                            .hour(.twoDigits(amPM: .wide))
+                            .minute())
+                    }
                 }
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                .buttonStyle(PlainButtonStyle())
+
+                // New Details Section
+                VStack(alignment: .leading, spacing: 8) {
+
+                    if !wallpaper.resolution.isEmpty {
+                        HStack {
+                            Text("Resolution:")
+                                .font(.headline)
+                            Text(wallpaper.resolution)
+                                .font(.body)
+                                .foregroundColor(.gray)
+                        }
+                    }
+
+                    if !wallpaper.aspectRatio.isEmpty {
+                        HStack {
+                            Text("Aspect Ratio:")
+                                .font(.headline)
+                            Text(wallpaper.aspectRatio)
+                                .font(.body)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+
+                // Action Buttons Section
+                HStack(spacing: 20) {
+                    Button(action: {
+                        // Add to favorites
+                    }) {
+                        Label("Add to Favorites", systemImage: "heart.fill")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                    }
+                    .background(.yellow.opacity(0.8))
+                    .cornerRadius(8)
+                    .buttonStyle(PlainButtonStyle())
+
+                    Button(action: {
+                        downloadWallpaper { _ in
+                        }
+                    }) {
+                        Label("Download", systemImage: "arrow.down.circle.fill")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                    }
+                    .background(Color(red: 0.0, green: 0.48, blue: 1.0))
+                    .cornerRadius(8)
+                    .buttonStyle(PlainButtonStyle())
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .help("Fastly download it by pressing ⌘+Enter")
+
+                    Button(action: self.applyWallpaper) {
+                        Label("Apply", systemImage: "paintbrush.fill")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                    }
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 24)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
+            .padding()
         }
         .navigationTitle("Wallpaper Details")
     }

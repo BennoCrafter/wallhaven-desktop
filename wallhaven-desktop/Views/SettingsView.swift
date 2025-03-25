@@ -81,7 +81,6 @@ struct APIKeySettingsView: View {
     @State private var isAPIKeyVisible = false
     
     private let keychainManager = KeychainManager.shared
-    private let apiKeyIdentifier = "com.wallhaven-desktop.wallhavenAPIKey"
     @FocusState private var apiKeyFieldFocused: Bool
     
     var body: some View {
@@ -127,7 +126,7 @@ struct APIKeySettingsView: View {
             return
         }
         
-        let success = keychainManager.saveToKeychain(key: apiKeyIdentifier, value: apiKey)
+        let success = keychainManager.saveToKeychain(key: .apiKeyIdentifier, value: apiKey)
         
         if success {
             apiKeyFieldFocused = false
@@ -142,9 +141,8 @@ struct APIKeySettingsView: View {
         apiKey = getAPIKey() ?? ""
     }
     
-    // Method to retrieve the API key when needed
     func getAPIKey() -> String? {
-        return keychainManager.retrieveFromKeychain(key: apiKeyIdentifier)
+        return keychainManager.retrieveFromKeychain(key: .apiKeyIdentifier)
     }
 }
 

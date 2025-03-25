@@ -43,12 +43,26 @@ class SearchSettings: ObservableObject, Equatable {
         var people: Bool = true
     }
     
-    struct Purity: Equatable {
+    struct Purity: Equatable, CaseIterable, Identifiable, Hashable {
         var sfw: Bool = true
         var sketchy: Bool = false
         var nsfw: Bool = false
+        
+        var name: String {
+            return "\(sfw ? "SFW" : "")\(sketchy ? " Sketchy" : "")\(nsfw ? " NSFW" : "")"
+        }
+        
+        var id: String { name }
+        
+        static var allCases: [Purity] {
+            return [
+                Purity(sfw: true, sketchy: false, nsfw: false),
+                Purity(sfw: true, sketchy: true, nsfw: false),
+                Purity(sfw: true, sketchy: true, nsfw: true),
+            ]
+        }
     }
-    
+
     @Published var sorting: Sorting = .dateAdded
     @Published var order: Order = .descending
     @Published var topRange: TopRange? = .oneMonth
@@ -76,7 +90,7 @@ class SearchSettings: ObservableObject, Equatable {
             lhs.purity == rhs.purity
     }
     
-    func buildURL(query: String, page: Int) -> String {
+    func buildURL(query: String, page: Int, apiKey: String?) -> String {
         var components = URLComponents(string: "https://wallhaven.cc/api/v1/search")!
         var queryItems: [URLQueryItem] = []
         
@@ -135,6 +149,10 @@ class SearchSettings: ObservableObject, Equatable {
         
         if let seed = seed {
             queryItems.append(URLQueryItem(name: "seed", value: seed))
+        }
+        
+        if let apiKey = apiKey {
+            queryItems.append(URLQueryItem(name: "apikey", value: apiKey))
         }
         
         components.queryItems = queryItems
