@@ -34,6 +34,17 @@ struct WallpaperDetailView: View {
                         .font(.title3)
                 }
 
+                HStack(spacing: 4) {
+                    Image(systemName: "calendar")
+                        .foregroundStyle(.blue)
+                    Text(self.wallpaper.createdAt, format: .dateTime
+                        .day(.twoDigits)
+                        .month(.wide)
+                        .year()
+                        .hour(.twoDigits(amPM: .wide))
+                        .minute())
+                }
+
                 Spacer()
 
                 Button(action: {

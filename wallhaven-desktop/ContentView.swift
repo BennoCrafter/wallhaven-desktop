@@ -47,6 +47,7 @@ enum MenuItem: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
+    @StateObject private var searchSettings: SearchSettings = .init()
     @State private var searchText = ""
     @State private var selectedMenuItem: MenuItem = .home
     @State private var hoveredImageID: String? = nil
@@ -110,6 +111,8 @@ struct ContentView: View {
                     .padding(.horizontal)
                     .padding(.vertical, 8)
 
+                    filterMenu
+
                     if !isLoading && wallpapers.isEmpty {
                         emptyResultsState
                         Spacer()
@@ -149,6 +152,47 @@ struct ContentView: View {
                 .foregroundColor(.secondary)
         }
         .padding()
+    }
+
+    private var filterMenu: some View {
+        HStack {
+            HStack {
+                Picker("Sorting", selection: $searchSettings.sorting) {
+                    ForEach(SearchSettings.Sorting.allCases) { c in
+                        Text(c.name).tag(c)
+                    }
+                }
+                .onChange(of: searchSettings.sorting) {
+                    triggerSearch()
+                }
+            }
+            .padding(.horizontal)
+
+            HStack {
+                Picker("Order", selection: $searchSettings.order) {
+                    Text("Descending").tag(SearchSettings.Order.descending)
+                    Text("Ascending").tag(SearchSettings.Order.ascending)
+                }
+                .onChange(of: searchSettings.order) {
+                    triggerSearch()
+                }
+            }
+            .padding(.horizontal)
+
+            if searchSettings.sorting == .toplist {
+                HStack {
+                    Picker("Top Range", selection: $searchSettings.topRange) {
+                        ForEach(SearchSettings.TopRange.allCases) { c in
+                            Text(c.name).tag(c)
+                        }
+                    }
+                    .onChange(of: searchSettings.topRange) {
+                        triggerSearch()
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
     }
 
     private var wallpaperResultsGrid: some View {
@@ -193,9 +237,8 @@ struct ContentView: View {
         guard !isLoading && canLoadMore else { return }
 
         isLoading = true
-        let urlString = "https://wallhaven.cc/api/v1/search?q=\(searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&page=\(page)"
 
-        if let url = URL(string: urlString) {
+        if let url = URL(string: searchSettings.buildURL(query: searchText, page: currentPage)) {
             loadDataFromURL(url: url) { wallpapers, error in
                 if let error = error {
                     WallhavenLogger.shared.error("Failed to load wallpapers data: \(error)", showToast: true)
