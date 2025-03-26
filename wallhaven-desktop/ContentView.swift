@@ -84,35 +84,7 @@ struct ContentView: View {
         case .home:
             NavigationStack {
                 VStack(spacing: 0) {
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(.secondary)
-                        TextField("Search wallpapers...", text: self.$searchText)
-                            .textFieldStyle(.plain)
-                            .focused(self.$searchBarIsFocused)
-                            .onSubmit {
-                                triggerSearch()
-                                self.searchBarIsFocused = false
-                            }
-
-                        if !self.searchText.isEmpty {
-                            Button(action: {
-                                self.searchText = ""
-                                self.searchBarIsFocused = true
-                                triggerSearch()
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundStyle(.secondary)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(6)
-                    .background(Color(.textBackgroundColor))
-                    .cornerRadius(6)
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-
+                    searchBar
                     filterMenu
 
                     if !isLoading && wallpapers.isEmpty {
@@ -136,6 +108,37 @@ struct ContentView: View {
         }
     }
 
+    private var searchBar: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+            TextField("Search wallpapers...", text: self.$searchText)
+                .textFieldStyle(.plain)
+                .focused(self.$searchBarIsFocused)
+                .onSubmit {
+                    triggerSearch()
+                    self.searchBarIsFocused = false
+                }
+
+            if !self.searchText.isEmpty {
+                Button(action: {
+                    self.searchText = ""
+                    self.searchBarIsFocused = true
+                    triggerSearch()
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(6)
+        .background(Color(.textBackgroundColor))
+        .cornerRadius(6)
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+    }
+
     private var emptyResultsState: some View {
         VStack(spacing: 16) {
             Image(systemName: "magnifyingglass.circle.fill")
@@ -157,56 +160,59 @@ struct ContentView: View {
     }
 
     private var filterMenu: some View {
-        HStack {
-            HStack {
-                Picker("Sorting", selection: $searchSettings.sorting) {
-                    ForEach(SearchSettings.Sorting.allCases) { c in
-                        Text(c.name).tag(c)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                // Sorting Picker
+                Picker("Sort", selection: $searchSettings.sorting) {
+                    ForEach(SearchSettings.Sorting.allCases, id: \.self) { sort in
+                        Text(sort.name).tag(sort)
                     }
                 }
-                .onChange(of: searchSettings.sorting) {
-                    triggerSearch()
-                }
-            }
-            .padding(.horizontal)
+                .pickerStyle(MenuPickerStyle())
+                .padding(8)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
 
-            HStack {
+                // Order Picker
                 Picker("Order", selection: $searchSettings.order) {
                     Text("Descending").tag(SearchSettings.Order.descending)
                     Text("Ascending").tag(SearchSettings.Order.ascending)
                 }
-                .onChange(of: searchSettings.order) {
-                    triggerSearch()
-                }
-            }
-            .padding(.horizontal)
+                .pickerStyle(MenuPickerStyle())
+                .padding(8)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
 
-            if searchSettings.sorting == .toplist {
-                HStack {
+                // Top Range Picker (conditional)
+                if searchSettings.sorting == .toplist {
                     Picker("Top Range", selection: $searchSettings.topRange) {
-                        ForEach(SearchSettings.TopRange.allCases) { c in
-                            Text(c.name).tag(c)
+                        ForEach(SearchSettings.TopRange.allCases, id: \.self) { range in
+                            Text(range.name).tag(range)
                         }
                     }
-                    .onChange(of: searchSettings.topRange) {
-                        triggerSearch()
-                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .padding(8)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
                 }
-                .padding(.horizontal)
-            }
 
-            HStack {
+                // Purity Picker
                 Picker("Purity", selection: $searchSettings.purity) {
-                    ForEach(SearchSettings.Purity.allCases) { c in
-                        Text(c.name).tag(c)
+                    ForEach(SearchSettings.Purity.allCases, id: \.self) { purity in
+                        Text(purity.name).tag(purity)
                     }
                 }
-                .onChange(of: searchSettings.purity) {
-                    triggerSearch()
-                }
+                .pickerStyle(MenuPickerStyle())
+                .padding(8)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
             }
             .padding(.horizontal)
         }
+        .onChange(of: searchSettings.sorting) { triggerSearch() }
+        .onChange(of: searchSettings.order) { triggerSearch() }
+        .onChange(of: searchSettings.topRange) { triggerSearch() }
+        .onChange(of: searchSettings.purity) { triggerSearch() }
     }
 
     private var wallpaperResultsGrid: some View {
